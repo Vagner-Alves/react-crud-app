@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # Serviço do Jenkins
+  jenkins:
+    image: jenkins/jenkins:2.414.3-jdk17 # 
+    container_name: jenkins
+    privileged: true
+    user: root 
+    ports:
+      - "8080:8080" 
+      - "50000:50000" 
+    volumes:
+      - ./jenkins_home:/var/jenkins_home 
+      - /var/run/docker.sock:/var/run/docker.sock 
+
+  # Serviço do SonarQube
+  sonarqube:
+    image: sonarqube:9.9.1-community 
+    container_name: sonarqube
+    ports:
+      - "9000:9000" 
+    volumes:
+      - ./sonarqube_data:/opt/sonarqube/data 
+      - ./sonarqube_extensions:/opt/sonarqube/extensions 
+      - ./sonarqube_logs:/opt/sonarqube/logs 
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true 
+
+networks:
+  default:
+    driver: bridge
