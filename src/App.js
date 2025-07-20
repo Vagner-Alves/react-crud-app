@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-// Main App Component
+
 const App = () => {
-  // State for storing the list of users
+  
   const [users, setUsers] = useState([]);
-  // State for the currently selected user for editing
+ 
   const [selectedUser, setSelectedUser] = useState(null);
-  // State to control the visibility of the user form modal
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Fetch users from the API when the component mounts
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // Function to fetch users from the API
+  
   const fetchUsers = async () => {
     try {
       const response = await fetch('https://jsonplaceholder.typicode.com/users');
@@ -25,7 +24,6 @@ const App = () => {
     }
   };
 
-  // Function to handle adding a new user
   const handleAddUser = async (user) => {
     try {
       const response = await fetch('https://jsonplaceholder.typicode.com/users', {
@@ -36,16 +34,13 @@ const App = () => {
         },
       });
       const newUser = await response.json();
-      // Add the new user to the local state
       setUsers([...users, { ...user, id: newUser.id }]);
-      // Close the modal
       setIsModalOpen(false);
     } catch (error) {
       console.error('Error adding user:', error);
     }
   };
 
-  // Function to handle updating a user
   const handleUpdateUser = async (user) => {
     try {
       await fetch(`https://jsonplaceholder.typicode.com/users/${user.id}`, {
@@ -55,9 +50,7 @@ const App = () => {
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      // Update the user in the local state
       setUsers(users.map((u) => (u.id === user.id ? user : u)));
-      // Close the modal and reset the selected user
       setIsModalOpen(false);
       setSelectedUser(null);
     } catch (error) {
@@ -65,38 +58,32 @@ const App = () => {
     }
   };
 
-  // Function to handle deleting a user
   const handleDeleteUser = async (id) => {
     try {
       await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
         method: 'DELETE',
       });
-      // Remove the user from the local state
       setUsers(users.filter((user) => user.id !== id));
     } catch (error) {
       console.error('Error deleting user:', error);
     }
   };
 
-  // Function to open the modal for adding a user
   const openAddModal = () => {
     setSelectedUser(null);
     setIsModalOpen(true);
   };
 
-  // Function to open the modal for editing a user
   const openEditModal = (user) => {
     setSelectedUser(user);
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedUser(null);
   };
 
-  // CSS Styles for the application
   const styles = `
     .container {
       max-width: 800px;
@@ -197,7 +184,6 @@ const App = () => {
   );
 };
 
-// UserTable Component to display the list of users
 const UserTable = ({ users, onEdit, onDelete }) => (
   <table className="user-table">
     <thead>
@@ -226,7 +212,6 @@ const UserTable = ({ users, onEdit, onDelete }) => (
   </table>
 );
 
-// UserForm Component for adding and editing users
 const UserForm = ({ user, onSave, onClose }) => {
   const [formData, setFormData] = useState(
     user || { name: '', email: '' }

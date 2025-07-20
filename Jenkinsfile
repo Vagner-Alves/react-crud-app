@@ -1,5 +1,3 @@
-// Jenkinsfile
-// Define o pipeline de Integração Contínua para o projeto React
 
 pipeline {
    
@@ -35,18 +33,9 @@ pipeline {
             }
         }
 
-       
-         // --- ETAPA CORRIGIDA ---
         stage('SonarQube Analysis') {
             steps {
-                // O withSonarQubeEnv prepara o ambiente para a análise.
-                // Ele injeta a URL do servidor e as credenciais automaticamente.
-                // O nome do servidor ('SonarQube') deve corresponder ao configurado em
-                // "Manage Jenkins" > "Configure System" > "SonarQube servers".
-                // Se você não deu um nome, pode omitir o parâmetro.
                 withSonarQubeEnv('SonarQube') {
-                    // O comando do scanner agora é mais simples. Ele pega as configurações
-                    // do ambiente preparado pelo withSonarQubeEnv.
                     sh 'sonar-scanner'
                 }
             }
