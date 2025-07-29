@@ -1,0 +1,309 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/Vagner-Alves/react-crud-app.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/Pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/Pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/Vagner-Alves/react-crud-app.git # timeout=10
+Fetching upstream changes from https://github.com/Vagner-Alves/react-crud-app.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+ > git fetch --tags --force --progress -- https://github.com/Vagner-Alves/react-crud-app.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision eda6af1e40d763b1db752c01a14a729dd17b70cb (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f eda6af1e40d763b1db752c01a14a729dd17b70cb # timeout=10
+Commit message: "fix: SonarQube fix"
+ > git rev-list --no-walk eda6af1e40d763b1db752c01a14a729dd17b70cb # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $SONAR_AUTH_TOKEN
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Tool Install)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Install Dependencies)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ npm install
+
+up to date, audited 1434 packages in 38s
+
+284 packages are looking for funding
+  run `npm fund` for details
+
+9 vulnerabilities (3 moderate, 6 high)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Tests)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ npm test -- --coverage --watchAll=false
+
+> react-crud-app@0.1.0 test
+> react-scripts test --coverage --watchAll=false
+
+PASS src/App.test.js (29.312 s)
+  ✓ renders learn react link (103 ms)
+
+--------------------|---------|----------|---------|---------|-----------------------------------------------------------
+File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                         
+--------------------|---------|----------|---------|---------|-----------------------------------------------------------
+All files           |   28.98 |     7.14 |      20 |   29.85 |                                                           
+ App.js             |   34.48 |       10 |   22.22 |   35.71 | 21-24,30-44,50-64,70-77,83-84,89-90,95-96,212-219,231-245 
+ index.js           |       0 |      100 |     100 |       0 | 7-17                                                      
+ reportWebVitals.js |       0 |        0 |       0 |       0 | 1-8                                                       
+--------------------|---------|----------|---------|---------|-----------------------------------------------------------
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        85.974 s
+Ran all test suites.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (SonarQube Analysis)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withSonarQubeEnv
+Injecting SonarQube environment variables using the configuration: SonarQube
+[Pipeline] {
+[Pipeline] sh
++ sonar-scanner
+[WARN]  Bootstrapper: SONARQUBE_SCANNER_PARAMS is deprecated, please use SONAR_SCANNER_JSON_PARAMS instead
+[INFO]  Bootstrapper: Retrieving info from "package.json" file
+[WARN]  Bootstrapper: Property "sonar.login" is deprecated and will be removed in a future version. Please use "sonar.token" instead.
+[INFO]  Bootstrapper: Platform: linux x64
+[INFO]  Bootstrapper: Server URL: http://sonarqube:9000
+[INFO]  Bootstrapper: Version: 4.3.0
+[INFO]  Bootstrapper: SonarQube server version: 9.9.1
+[INFO]  Bootstrapper: JRE provisioning is NOT supported
+[INFO]  Bootstrapper: Falling back on using sonar-scanner-cli
+[INFO]  Bootstrapper: Starting analysis
+02:34:00.020 INFO  Scanner configuration file: /root/.sonar/native-sonar-scanner/sonar-scanner-6.2.1.4610-linux-x64/conf/sonar-scanner.properties
+02:34:00.028 INFO  Project root configuration file: /var/jenkins_home/workspace/Pipeline/sonar-project.properties
+02:34:00.048 INFO  SonarScanner CLI 6.2.1.4610
+02:34:00.050 INFO  Java 17.0.12 Eclipse Adoptium (64-bit)
+02:34:00.050 INFO  Linux 5.15.153.1-microsoft-standard-WSL2 amd64
+02:34:00.063 INFO  User cache: /root/.sonar/cache
+02:34:00.813 INFO  Communicating with SonarQube Server 9.9.1.69595
+02:34:01.403 INFO  Load global settings
+02:34:01.635 INFO  Load global settings (done) | time=234ms
+02:34:01.637 INFO  Server id: 147B411E-AZgane2--5QSvCPO4-H4
+02:34:01.643 INFO  User cache: /root/.sonar/cache
+02:34:01.646 INFO  Load/download plugins
+02:34:01.646 INFO  Load plugins index
+02:34:01.744 INFO  Load plugins index (done) | time=98ms
+02:34:01.853 INFO  Load/download plugins (done) | time=206ms
+02:34:02.573 INFO  Process project properties
+02:34:02.585 INFO  Process project properties (done) | time=12ms
+02:34:02.592 INFO  Execute project builders
+02:34:02.594 INFO  Execute project builders (done) | time=1ms
+02:34:02.612 INFO  Project key: react-crud-app
+02:34:02.612 INFO  Base dir: /var/jenkins_home/workspace/Pipeline
+02:34:02.612 INFO  Working dir: /var/jenkins_home/workspace/Pipeline/.scannerwork
+02:34:02.626 INFO  Load project settings for component key: 'react-crud-app'
+02:34:02.909 INFO  Load project settings for component key: 'react-crud-app' (done) | time=283ms
+02:34:03.161 INFO  Auto-configuring with CI 'Jenkins'
+02:34:03.166 INFO  Load quality profiles
+02:34:03.692 INFO  Load quality profiles (done) | time=526ms
+02:34:03.698 INFO  Load active rules
+02:34:08.630 INFO  Load active rules (done) | time=4932ms
+02:34:08.635 INFO  Load analysis cache
+02:34:08.685 INFO  Load analysis cache (7.2 kB) | time=50ms
+02:34:08.776 INFO  Load project repositories
+02:34:08.810 INFO  Load project repositories (done) | time=34ms
+02:34:08.843 INFO  Indexing files...
+02:34:08.844 INFO  Project configuration:
+02:34:08.845 INFO    Excluded sources: node_modules/**, bower_components/**, jspm_packages/**, typings/**, lib-cov/**, coverage/**
+02:34:10.441 INFO  9 files indexed
+02:34:10.442 INFO  0 files ignored because of inclusion/exclusion patterns
+02:34:10.442 INFO  0 files ignored because of scm ignore settings
+02:34:10.446 INFO  Quality profile for css: Sonar way
+02:34:10.447 INFO  Quality profile for js: Sonar way
+02:34:10.447 INFO  ------------- Run sensors on module React CRUD Application
+02:34:10.928 INFO  Load metrics repository
+02:34:11.048 INFO  Load metrics repository (done) | time=120ms
+02:34:14.357 INFO  Sensor JaCoCo XML Report Importer [jacoco]
+02:34:14.359 INFO  'sonar.coverage.jacoco.xmlReportPaths' is not defined. Using default locations: target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml,build/reports/jacoco/test/jacocoTestReport.xml
+02:34:14.361 INFO  No report imported, no coverage information will be imported by JaCoCo XML Report Importer
+02:34:14.361 INFO  Sensor JaCoCo XML Report Importer [jacoco] (done) | time=4ms
+02:34:14.361 INFO  Sensor JavaScript analysis [javascript]
+02:41:18.912 WARN  Node.js version 24 is not recommended, you might experience issues. Please use a recommended version of Node.js [16, 18]
+02:41:18.953 INFO  5 source files to be analyzed
+02:41:28.969 INFO  1/5 file analyzed, current file: /var/jenkins_home/workspace/Pipeline/src/App.test.js
+02:41:32.082 INFO  5/5 source files have been analyzed
+02:41:32.083 INFO  Hit the cache for 0 out of 5
+02:41:32.086 INFO  Miss the cache for 5 out of 5: ANALYSIS_MODE_INELIGIBLE [5/5]
+02:41:32.087 INFO  Sensor JavaScript analysis [javascript] (done) | time=437726ms
+02:41:32.087 INFO  Sensor TypeScript analysis [javascript]
+02:41:32.088 INFO  No input files found for analysis
+02:41:32.089 INFO  Hit the cache for 0 out of 0
+02:41:32.089 INFO  Miss the cache for 0 out of 0
+02:41:32.089 INFO  Sensor TypeScript analysis [javascript] (done) | time=2ms
+02:41:32.089 INFO  Sensor CSS Rules [javascript]
+02:41:32.098 INFO  3 source files to be analyzed
+02:41:42.096 INFO  0/3 files analyzed, current file: /var/jenkins_home/workspace/Pipeline/src/App.css
+02:41:45.912 INFO  3/3 source files have been analyzed
+02:41:45.912 INFO  Hit the cache for 0 out of 0
+02:41:45.912 INFO  Miss the cache for 0 out of 0
+02:41:45.912 INFO  Sensor CSS Rules [javascript] (done) | time=13823ms
+02:41:45.913 INFO  Sensor JavaScript/TypeScript Coverage [javascript]
+02:41:45.915 INFO  Analysing [/var/jenkins_home/workspace/Pipeline/coverage/lcov.info]
+02:41:45.960 INFO  Sensor JavaScript/TypeScript Coverage [javascript] (done) | time=47ms
+02:41:45.960 INFO  Sensor CSS Metrics [javascript]
+02:41:46.103 INFO  Sensor CSS Metrics [javascript] (done) | time=143ms
+02:41:46.104 INFO  Sensor C# Project Type Information [csharp]
+02:41:46.112 INFO  Sensor C# Project Type Information [csharp] (done) | time=8ms
+02:41:46.113 INFO  Sensor C# Analysis Log [csharp]
+02:41:46.166 INFO  Sensor C# Analysis Log [csharp] (done) | time=53ms
+02:41:46.166 INFO  Sensor C# Properties [csharp]
+02:41:46.166 INFO  Sensor C# Properties [csharp] (done) | time=0ms
+02:41:46.166 INFO  Sensor HTML [web]
+02:41:46.174 INFO  Sensor HTML [web] (done) | time=7ms
+02:41:46.174 INFO  Sensor TextAndSecretsSensor [text]
+02:41:46.196 INFO  8 source files to be analyzed
+02:41:46.241 INFO  8/8 source files have been analyzed
+02:41:46.242 INFO  Sensor TextAndSecretsSensor [text] (done) | time=68ms
+02:41:46.242 INFO  Sensor VB.NET Project Type Information [vbnet]
+02:41:46.246 INFO  Sensor VB.NET Project Type Information [vbnet] (done) | time=4ms
+02:41:46.246 INFO  Sensor VB.NET Analysis Log [vbnet]
+02:41:46.270 INFO  Sensor VB.NET Analysis Log [vbnet] (done) | time=24ms
+02:41:46.270 INFO  Sensor VB.NET Properties [vbnet]
+02:41:46.270 INFO  Sensor VB.NET Properties [vbnet] (done) | time=0ms
+02:41:46.270 INFO  Sensor IaC Docker Sensor [iac]
+02:41:46.280 INFO  0 source files to be analyzed
+02:41:46.371 INFO  0/0 source files have been analyzed
+02:41:46.371 INFO  Sensor IaC Docker Sensor [iac] (done) | time=101ms
+02:41:46.386 INFO  ------------- Run sensors on project
+02:41:46.475 INFO  Sensor Analysis Warnings import [csharp]
+02:41:46.476 INFO  Sensor Analysis Warnings import [csharp] (done) | time=1ms
+02:41:46.476 INFO  Sensor Zero Coverage Sensor
+02:41:46.488 INFO  Sensor Zero Coverage Sensor (done) | time=12ms
+02:41:46.533 INFO  CPD Executor 3 files had no CPD blocks
+02:41:46.533 INFO  CPD Executor Calculating CPD for 2 files
+02:41:46.575 INFO  CPD Executor CPD calculation finished (done) | time=40ms
+02:41:47.154 INFO  Analysis report generated in 298ms, dir size=161.8 kB
+02:41:48.709 INFO  Analysis report compressed in 1547ms, zip size=41.0 kB
+02:41:49.180 INFO  Analysis report uploaded in 471ms
+02:41:49.184 INFO  ANALYSIS SUCCESSFUL, you can find the results at: http://sonarqube:9000/dashboard?id=react-crud-app
+02:41:49.184 INFO  Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+02:41:49.185 INFO  More about the report processing at http://sonarqube:9000/api/ce/task?id=AZgbaMoq-5QSvCPO5IBV
+02:42:51.221 INFO  Analysis total time: 8:49.240 s
+02:42:51.228 INFO  EXECUTION SUCCESS
+02:42:51.230 INFO  Total time: 8:51.256s
+[INFO]  Bootstrapper: SonarScanner CLI finished successfully
+[Pipeline] }
+[Pipeline] // withSonarQubeEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (SonarQube Quality Gate)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 0 min
+[Pipeline] {
+[Pipeline] waitForQualityGate
+Checking status of SonarQube task 'AZgbaMoq-5QSvCPO5IBV' on server 'SonarQube'
+SonarQube task 'AZgbaMoq-5QSvCPO5IBV' status is 'SUCCESS'
+SonarQube task 'AZgbaMoq-5QSvCPO5IBV' completed. Quality gate is 'OK'
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Application)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ npm run build
+
+> react-crud-app@0.1.0 build
+> react-scripts build
+
+(node:4051) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Creating an optimized production build...
+Compiled successfully.
+
+File sizes after gzip:
+
+  60.52 kB  build/static/js/main.c80fc10c.js
+  5.38 kB   build/static/css/main.56574299.css
+  1.77 kB   build/static/js/453.f97bf577.chunk.js
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
